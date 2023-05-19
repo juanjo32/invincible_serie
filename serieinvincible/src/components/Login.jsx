@@ -48,10 +48,10 @@ export default function Login() {
             <label htmlFor="innputPassword"> <h5><strong>Contraseña</strong></h5></label>
             <input type="password" className="form-control mb-3" id="inputPassword" placeholder="Ingrese su contraseña" onChange={e => { setPassword(e.target.value) }} />
           </div>
-          <div className='col-12'><NavLink to="/registro">No estas registrado? crea tu usuario aqui</NavLink></div>
+          <div className='col-12'><NavLink to="/registro" style={{ color: '#0a9bb8' }}>No estas registrado? crea tu usuario aqui</NavLink></div>
           
           <div className="d-flex justify-content-center"> 
-          <button type="submit" className="btn btn-primary col-8 mt-3">Iniciar Sesión</button>
+          <button type="submit" className="btn btn-info col-8 mt-3"><strong>Iniciar Sesión</strong></button>
           </div>
         </form>
       </div>

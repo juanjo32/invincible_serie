@@ -4,17 +4,17 @@ export default function Publicacion({ user, date, text, category, image, comment
 
   return (
     <div className="container mb-4">
-      <div className="card">
+      <div className="card bg-dark text-white">
         <div className="card-header">
           <div className='row'>
             <div className="col-6"><strong>{user + " / "+category}</strong></div>
             <div className="col-6 text-end text-muted">{date}</div>
           </div>
         </div>
-        <div className="card-body">
+        <div className="card-body ">
           <div className="row" style={{ display: 'flex' }}>
             <div className="col-md-2 col-lg-2">
-              <img src={image} className="img-fluid" alt="Publication" style={{height:'100%', objectFit: 'cover'}} />
+              <img src={image} className="img-fluid" alt="Error al cargar la imagen 😢" style={{height:'100%', objectFit: 'cover'}} />
             </div>
             <div className="col-md-10 col-lg-10">
               <p className="card-text">{text}</p>

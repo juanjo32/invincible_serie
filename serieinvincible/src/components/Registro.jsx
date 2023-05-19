@@ -53,7 +53,7 @@ export default function Registro() {
       <div className="row justify-content-center align-items-center" style={{ height: '100%' }}>
        
         <form className="form col-8 p-5 border border-dark rounded-5" onSubmit={handleSubmit} style={{ backgroundColor: 'rgba(242, 242, 242, 0.9)' }}>
-        <button className="btn btn-primary" type="button" onClick={()=>navigate('/')}> ← Atras </button>
+        <button className="btn btn-info" type="button" onClick={()=>navigate('/')}><strong> ← Atras </strong></button>
         <h1 className="text-center mb-3" style={{fontFamily: "'Bangers', cursive"}}>Invincible Fan Club</h1>
 
           <div className="form-group">
@@ -72,7 +72,7 @@ export default function Registro() {
             <input value={confpassword} type="password" className="form-control mb-3" id="inputConfPassword" placeholder="Verifique su contraseña" onChange={e => { setConfPassword(e.target.value) }} />
           </div>
           <div className="d-flex justify-content-center"> 
-          <button type="submit" className="btn btn-primary col-8 mt-3">Sign in</button> 
+          <button type="submit" className="btn btn-info col-8 mt-3"><strong>Registrarse</strong></button> 
           </div>
         </form>
       </div>

@@ -4,7 +4,7 @@ import Publicacion from './Publicacion'
 export default function Novedades() {
   const publicationData = {
     user: 'Robert Kirkman',
-    date: '3:03am, May 18-2023',
+    date: '3:03 AM, May 18-2023',
     text: 'va a salir nueva temporada!',
     category: 'Anuncio',
     image: 'https://m.media-amazon.com/images/I/61YLVtIOhZL._RI_SX720_FMjpg_.jpg',
