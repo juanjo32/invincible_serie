@@ -1,0 +1,13 @@
+.BtnNavbar:hover .svg-inline--fa {
+    color: #e6c507;
+    transition: color 0.3s ease-in-out;
+  }
+
+  .BtnNavbar{
+    min-height: 15%;
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+    color: #f7df53;
+    margin-bottom: 30%;
+  }
