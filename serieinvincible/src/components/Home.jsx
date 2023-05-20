@@ -68,6 +68,7 @@ export default function Home() {
   return (
   <div>
   <h1 className="text-center mt-3 display-1" style={{fontFamily: "'Bangers', cursive", color: "#fee566"}}> HOME / COMUNIDAD </h1>
+  <hr />
       <Publicacion {...publicationData} />
       <Publicacion {...publicationData2} />
       <Publicacion {...publicationData3} />

@@ -16,6 +16,7 @@ export default function Novedades() {
   return (
     <div>
       <h1 className="text-center mt-3 display-1" style={{fontFamily: "'Bangers', cursive", color: "#fee566"}}> Novedades y Noticias </h1>
+      <hr />
       <Publicacion {...publicationData} />
     </div>
   )

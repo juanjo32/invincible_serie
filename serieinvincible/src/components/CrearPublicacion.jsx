@@ -44,6 +44,7 @@ export default function CrearPublicacion() {
   return (
     <div>
       <h1 className="text-center mt-3 display-1" style={{ fontFamily: "'Bangers', cursive", color: "#fee566" }}>Crear una publicación</h1>
+      <hr />
       <div className="container mb-4 mt-5">
         <div className="card bg-dark text-white">
           <div className="card-header">

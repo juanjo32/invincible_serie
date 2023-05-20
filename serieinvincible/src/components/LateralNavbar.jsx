@@ -1,15 +1,31 @@
 import React from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faHouse, faNewspaper, faUpload, faUser } from '@fortawesome/free-solid-svg-icons'
+import { faHouse, faNewspaper, faUpload, faUser, faArrowRightFromBracket } from '@fortawesome/free-solid-svg-icons'
 import { useNavigate } from "react-router-dom";
+import Swal from 'sweetalert2';
 
 
 export default function LateralNavbar() {
   let tamanoIcon = "1x";
   const navigate = useNavigate();
+
+  const handleSignOut = (event) => {
+    Swal.fire({
+      title: 'Deseas cerrar sesión?',
+      icon: 'info',
+      showCancelButton: true,
+      confirmButtonText: 'Sí',
+      cancelButtonText: 'No',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        navigate('/')
+      }
+    });
+  }
+
   return (
     
-    <div className="col-1 d-flex flex-column vh-100 pt-5 border-end border-dark border-5" style={{ backgroundColor: "#202428", alignContent: "center", fontSize:"4vw" }}>
+    <div className="col-1 d-flex flex-column vh-100 pt-3 border-end border-dark border-5" style={{ backgroundColor: "#202428", alignContent: "center", fontSize:"4vw" }}>
         <button onClick={() => navigate('/home')} title="Home / Comunidad" className="BtnNavbar">
           <FontAwesomeIcon icon={faHouse} size={tamanoIcon}/>
         </button>
@@ -24,6 +40,10 @@ export default function LateralNavbar() {
 
         <button onClick={() => navigate('/usuario')} title="Usuario" className="BtnNavbar">
           <FontAwesomeIcon icon={faUser} size={tamanoIcon} />
+        </button>
+
+        <button onClick={()=> handleSignOut()} title="Cerrar sesión" className="BtnNavbar">
+          <FontAwesomeIcon icon={faArrowRightFromBracket} size={tamanoIcon} />
         </button>
 
       </div>

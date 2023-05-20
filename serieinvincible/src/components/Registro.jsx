@@ -48,9 +48,9 @@ export default function Registro() {
   };
   
   return (
-    <div className="container-fluid p-0" style={{ backgroundImage: `url(${fondo2})`, backgroundSize: 'cover', height: '100vh', width: '100%' }}>
+    <div className="container-fluid p-3" style={{ backgroundImage: `url(${fondo2})`, backgroundSize: 'cover', height: '100%', width: '100%' }}>
     
-      <div className="row justify-content-center align-items-center" style={{ height: '100%' }}>
+      <div className="row justify-content-center align-items-center">
        
         <form className="form col-8 p-5 border border-dark rounded-5" onSubmit={handleSubmit} style={{ backgroundColor: 'rgba(242, 242, 242, 0.9)' }}>
         <button className="btn btn-info" type="button" onClick={()=>navigate('/')}><strong> ← Atras </strong></button>
