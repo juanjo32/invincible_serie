@@ -7,22 +7,26 @@ import {
   Body,
   Put,
   Delete,
+  ParseIntPipe,
 } from '@nestjs/common';
+
+import { PublicationsService } from './../services/publications.service';
+import {
+  CreatePublicationDto,
+  UpdatePublicationDto,
+} from './../dtos/publications.dtos';
 
 @Controller('publications')
 export class PublicationsController {
+  constructor(private publicationsService: PublicationsService) {}
   @Get(':publicationId')
-  getPublication(@Param('publicationId') publicationId: string) {
-    return {
-      message: `Publication ${publicationId}`,
-    };
+  getPublication(@Param('publicationId', ParseIntPipe) publicationId: number) {
+    return this.publicationsService.findOne(publicationId);
   }
   //comentario de ayuda
   @Get()
   getPublications(@Query('limit') limit = 20, @Query('offset') offset = 1) {
-    return {
-      message: `products: limit=> ${limit} offset=> ${offset} `,
-    };
+    return this.publicationsService.findAll();
   }
 
   @Get('users/:userId')
@@ -44,23 +48,18 @@ export class PublicationsController {
     };
   }
   @Post()
-  create(@Body() payload: any) {
-    return {
-      message: 'crear',
-      payload,
-    };
+  create(@Body() payload: CreatePublicationDto) {
+    return this.publicationsService.create(payload);
   }
   @Put(':id')
-  update(@Param('id') id: number, @Body() payload: any) {
-    return {
-      id,
-      payload,
-    };
+  update(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() payload: UpdatePublicationDto,
+  ) {
+    return this.publicationsService.update(id, payload);
   }
   @Delete(':id')
-  delete(@Param('id') id: number) {
-    return {
-      id,
-    };
+  delete(@Param('id', ParseIntPipe) id: number) {
+    return this.publicationsService.remove(id);
   }
 }
