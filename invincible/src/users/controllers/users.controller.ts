@@ -38,7 +38,10 @@ export class UsersController {
     return this.usersService.create(payload);
   }
   @Put(':id')
-  update(@Param('id', ParseIntPipe) id: number, @Body() payload: any) {
+  update(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() payload: UpdateUserDto,
+  ) {
     return this.usersService.update(id, payload);
   }
   @Delete(':id')

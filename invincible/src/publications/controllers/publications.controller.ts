@@ -2,7 +2,6 @@ import {
   Controller,
   Get,
   Param,
-  Query,
   Post,
   Body,
   Put,
@@ -25,7 +24,7 @@ export class PublicationsController {
   }
   //comentario de ayuda
   @Get()
-  getPublications(@Query('limit') limit = 20, @Query('offset') offset = 1) {
+  getPublications() {
     return this.publicationsService.findAll();
   }
 
