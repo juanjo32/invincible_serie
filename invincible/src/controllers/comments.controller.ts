@@ -9,10 +9,15 @@ import {
   Delete,
   HttpStatus,
   HttpCode,
+  ParseIntPipe,
 } from '@nestjs/common';
+import { CommentsService } from './../services/comments.service';
+import { CreateCommentDto, UpdateCommentDto } from './../dtos/comments.dtos';
 
 @Controller('comments')
 export class CommentsController {
+  constructor(private commentsService: CommentsService) {}
+
   @Get('')
   getComments(@Query('limit') limit = 20, @Query('offset') offset = 1) {
     return {
@@ -33,23 +38,18 @@ export class CommentsController {
     };
   }
   @Post()
-  create(@Body() payload: any) {
-    return {
-      message: 'crear',
-      payload,
-    };
+  create(@Body() payload: CreateCommentDto) {
+    return this.commentsService.create(payload);
   }
   @Put(':id')
-  update(@Param('id') id: number, @Body() payload: any) {
-    return {
-      id,
-      payload,
-    };
+  update(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() payload: UpdateCommentDto,
+  ) {
+    return this.commentsService.update(id, payload);
   }
   @Delete(':id')
-  delete(@Param('id') id: number) {
-    return {
-      id,
-    };
+  delete(@Param('id', ParseIntPipe) id: number) {
+    return this.commentsService.remove(id);
   }
 }
