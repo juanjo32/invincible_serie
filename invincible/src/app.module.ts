@@ -7,9 +7,11 @@ import { CommentsController } from './controllers/comments.controller';
 import { CommentsService } from './services/comments.service';
 import { PublicationsService } from './services/publications.service';
 import { UsersService } from './services/users.service';
+import { UsersModule } from './users/users.module';
+import { PublicationsModule } from './publications/publications.module';
 
 @Module({
-  imports: [],
+  imports: [UsersModule, PublicationsModule],
   controllers: [
     AppController,
     PublicationsController,
