@@ -9,6 +9,12 @@ export class CommentsService {
     {
       id: 1,
       content: 'Deproto es o depronto no es',
+      user: {
+        id: 1,
+        name: 'user 1',
+        image: 'url',
+        publications: [],
+      },
     },
   ];
   findAll() {

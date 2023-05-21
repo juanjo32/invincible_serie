@@ -4,6 +4,7 @@ import {
   CreatePublicationDto,
   UpdatePublicationDto,
 } from './../dtos/publications.dtos';
+import { User } from 'src/users/entities/user.entity';
 
 @Injectable()
 export class PublicationsService {
@@ -11,9 +12,16 @@ export class PublicationsService {
   private publications: Publication[] = [
     {
       id: 1,
-      tittle: 'Sera o no sera',
-      content: 'Deproto es o depronto no es',
+      tittle: 'This is a publication',
+      content: 'This is the content of the publication',
       image: 'url image',
+      date: new Date(),
+      user: {
+        id: 1,
+        name: 'John Doe',
+        image: 'johndoe@example.com',
+        publications: [],
+      },
     },
   ];
   findAll() {

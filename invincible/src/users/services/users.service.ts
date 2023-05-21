@@ -2,15 +2,18 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { User } from './../entities/user.entity';
 
 import { CreateUserDto, UpdateUserDto } from './../dtos/users.dtos';
-
+import { Publication } from '../../publications/entities/publication.entity';
+import { PublicationsService } from './../../publications/services/publications.service';
 @Injectable()
 export class UsersService {
+  constructor(private publicationsService: PublicationsService) {}
   private counterId = 1;
   private Users: User[] = [
     {
       id: 1,
       name: 'user 1',
       image: 'url',
+      publications: [],
     },
   ];
   findAll() {
@@ -51,5 +54,14 @@ export class UsersService {
     }
     this.Users.splice(index, 1);
     return true;
+  }
+  getPublicationByUser(id: number): User {
+    const user = this.findOne(id);
+    return {
+      id: 1,
+      name: 'string',
+      image: 'string',
+      publications: this.publicationsService.findAll(),
+    };
   }
 }

@@ -18,14 +18,9 @@ export class UsersController {
   getUsers() {
     return this.usersService.findAll();
   }
-  @Get(':id/publications/:publicationId')
-  getUsersbypublication(
-    @Param('publicationId') publicationId: string,
-    @Param('id') id: string,
-  ) {
-    return {
-      message: `Publication ${publicationId} and id ${id}`,
-    };
+  @Get(':id/publications')
+  getPublications(@Param('id', ParseIntPipe) id: number) {
+    return this.usersService.getPublicationByUser(id);
   }
   @Get(':userId')
   getUser(@Param('userId') userId: string) {
