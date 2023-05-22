@@ -3,7 +3,6 @@ import { Comment } from './../../comments/entities/comments.entity';
 import { Prop, Schema, SchemaFactory, raw } from '@nestjs/mongoose';
 import { Document, Types } from 'mongoose';
 import { required, string } from 'joi';
-
 @Schema()
 export class Publication extends Document {
   @Prop()
@@ -23,7 +22,7 @@ export class Publication extends Document {
   //   }),
   // )
   // user: User;
-  // @Prop()
-  // commment: Comment[];
+  @Prop({ type: [{ type: Types.ObjectId, ref: Comment.name }] })
+  commments: Types.Array<Comment>;
 }
 export const PublicationSchema = SchemaFactory.createForClass(Publication);

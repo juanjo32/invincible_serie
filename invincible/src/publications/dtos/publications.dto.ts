@@ -8,8 +8,9 @@ import {
   Min,
   ValidateNested,
   IsMongoId,
+  IsArray,
 } from 'class-validator';
-import { PartialType } from '@nestjs/swagger';
+import { PartialType, OmitType } from '@nestjs/swagger';
 import { User } from '../../users/entities/user.entity';
 import { CreateUserDto } from 'src/users/dtos/users.dto';
 export class CreatePublicationDto {
@@ -28,11 +29,14 @@ export class CreatePublicationDto {
   @IsNotEmpty()
   @IsMongoId()
   readonly user: string;
-  // @IsNotEmpty()
-  // readonly comments: Comment[];
+  @IsArray()
+  @IsNotEmpty()
+  readonly comments: string[];
 }
 
-export class UpdatePublicationDto extends PartialType(CreatePublicationDto) {}
+export class UpdatePublicationDto extends PartialType(
+  OmitType(CreatePublicationDto, ['comments']),
+) {}
 
 export class FilterPublicationsDto {
   @IsOptional()
