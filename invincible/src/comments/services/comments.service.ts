@@ -24,7 +24,7 @@ export class CommentsService {
     @InjectModel(Comment.name) private commentModel: Model<Comment>,
   ) {}
   findAll() {
-    return this.commentModel.find().exec();
+    return this.commentModel.find().populate('user').exec();
   }
   async findOne(id: string) {
     const Comment = this.commentModel.findById(id).exec();
