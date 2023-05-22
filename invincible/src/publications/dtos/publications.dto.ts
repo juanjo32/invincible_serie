@@ -7,6 +7,7 @@ import {
   IsPositive,
   Min,
   ValidateNested,
+  IsMongoId,
 } from 'class-validator';
 import { PartialType } from '@nestjs/swagger';
 import { User } from '../../users/entities/user.entity';
@@ -25,8 +26,8 @@ export class CreatePublicationDto {
   @IsNotEmpty()
   readonly date: Date;
   @IsNotEmpty()
-  @ValidateNested()
-  readonly user: CreateUserDto;
+  @IsMongoId()
+  readonly user: string;
   // @IsNotEmpty()
   // readonly comments: Comment[];
 }

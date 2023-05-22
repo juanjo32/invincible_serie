@@ -7,7 +7,6 @@ import {
   UpdatePublicationDto,
   FilterPublicationsDto,
 } from './../dtos/publications.dto';
-import { User } from 'src/users/entities/user.entity';
 
 @Injectable()
 export class PublicationsService {
@@ -15,11 +14,16 @@ export class PublicationsService {
     @InjectModel(Publication.name) private publicationModel: Model<Publication>,
   ) {}
   findAll(params?: FilterPublicationsDto) {
-    if(params){
+    if (params) {
       const { limit, offset } = params;
-      return this.publicationModel.find().skip(offset).limit(limit).exec();
+      return this.publicationModel
+        .find()
+        .populate('user')
+        .skip(offset)
+        .limit(limit)
+        .exec();
     }
-    return this.publicationModel.find().exec();
+    return this.publicationModel.find().populate('user').exec();
   }
   async findOne(id: string) {
     const publication = await this.publicationModel.findById(id).exec();
