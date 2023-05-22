@@ -23,6 +23,6 @@ export class Publication extends Document {
   // )
   // user: User;
   @Prop({ type: [{ type: Types.ObjectId, ref: Comment.name }] })
-  commments: Types.Array<Comment>;
+  comments: Types.Array<Comment>;
 }
 export const PublicationSchema = SchemaFactory.createForClass(Publication);

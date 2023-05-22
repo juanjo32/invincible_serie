@@ -19,11 +19,16 @@ export class PublicationsService {
       return this.publicationModel
         .find()
         .populate('user')
+        .populate('comments')
         .skip(offset)
         .limit(limit)
         .exec();
     }
-    return this.publicationModel.find().populate('user').exec();
+    return this.publicationModel
+      .find()
+      .populate('user')
+      .populate('comments')
+      .exec();
   }
   async findOne(id: string) {
     const publication = await this.publicationModel.findById(id).exec();
