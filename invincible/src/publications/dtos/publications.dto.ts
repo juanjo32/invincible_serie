@@ -1,4 +1,12 @@
-import { IsString, IsUrl, IsDate, IsNotEmpty } from 'class-validator';
+import {
+  IsString,
+  IsUrl,
+  IsDate,
+  IsNotEmpty,
+  IsOptional,
+  IsPositive,
+  Min,
+} from 'class-validator';
 import { PartialType } from '@nestjs/swagger';
 import { User } from '../../users/entities/user.entity';
 export class CreatePublicationDto {
@@ -21,3 +29,12 @@ export class CreatePublicationDto {
 }
 
 export class UpdatePublicationDto extends PartialType(CreatePublicationDto) {}
+
+export class FilterPublicationsDto {
+  @IsOptional()
+  @IsPositive()
+  limit: number;
+  @IsOptional()
+  @Min(0)
+  offset: number;
+}

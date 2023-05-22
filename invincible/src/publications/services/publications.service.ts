@@ -5,6 +5,7 @@ import { Publication } from './../entities/publication.entity';
 import {
   CreatePublicationDto,
   UpdatePublicationDto,
+  FilterPublicationsDto,
 } from './../dtos/publications.dto';
 import { User } from 'src/users/entities/user.entity';
 
@@ -13,7 +14,11 @@ export class PublicationsService {
   constructor(
     @InjectModel(Publication.name) private publicationModel: Model<Publication>,
   ) {}
-  findAll() {
+  findAll(params?: FilterPublicationsDto) {
+    if(params){
+      const { limit, offset } = params;
+      return this.publicationModel.find().skip(offset).limit(limit).exec();
+    }
     return this.publicationModel.find().exec();
   }
   async findOne(id: string) {
