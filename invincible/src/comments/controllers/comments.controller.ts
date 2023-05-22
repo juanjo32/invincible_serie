@@ -13,24 +13,21 @@ import {
 } from '@nestjs/common';
 import { CommentsService } from './../services/comments.service';
 import { CreateCommentDto, UpdateCommentDto } from '../dtos/comments.dto';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiTags, ApiOperation } from '@nestjs/swagger';
+import { MongoidPipe } from 'src/common/mongoid/mongoid.pipe';
 @ApiTags('Comments')
 @Controller('comments')
 export class CommentsController {
   constructor(private commentsService: CommentsService) {}
 
-  @Get('')
-  getComments(@Query('limit') limit = 20, @Query('offset') offset = 1) {
-    return {
-      message: `limit comments ${limit} offset comment ${offset}`,
-    };
+  @Get()
+  @ApiOperation({ summary: 'List of comments ' })
+  getComments() {
+    return this.commentsService.findAll();
   }
   @Get(':commentId')
-  @HttpCode(HttpStatus.ACCEPTED)
   getComment(@Param('commentId') commentId: string) {
-    return {
-      message: `comment id ${commentId}`,
-    };
+    return this.commentsService.findOne(commentId);
   }
   @Get('/users/:userId')
   getCommentbyUser(@Param() userId: string) {
@@ -43,11 +40,14 @@ export class CommentsController {
     return this.commentsService.create(payload);
   }
   @Put(':id')
-  update(@Param('id') id: string, @Body() payload: UpdateCommentDto) {
+  update(
+    @Param('id', MongoidPipe) id: string,
+    @Body() payload: UpdateCommentDto,
+  ) {
     return this.commentsService.update(id, payload);
   }
   @Delete(':id')
-  delete(@Param('id') id: string) {
+  delete(@Param('id', MongoidPipe) id: string) {
     return this.commentsService.remove(id);
   }
 }
