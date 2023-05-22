@@ -7,13 +7,16 @@ import {
   Put,
   Delete,
   ParseIntPipe,
+  Query,
 } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { PublicationsService } from './../services/publications.service';
 import {
   CreatePublicationDto,
   UpdatePublicationDto,
+  FilterPublicationsDto,
 } from '../dtos/publications.dto';
+import { MongoidPipe } from './../../common/mongoid/mongoid.pipe';
 
 @ApiTags('publications')
 @Controller('publications')
@@ -24,8 +27,9 @@ export class PublicationsController {
     return this.publicationsService.findOne(publicationId);
   }
   @Get()
-  getPublications() {
-    return this.publicationsService.findAll();
+  @ApiOperation({ summary: 'List of publications ' })
+  getPublications(@Query() params: FilterPublicationsDto) {
+    return this.publicationsService.findAll(params);
   }
 
   @Get('users/:userId')
@@ -52,12 +56,15 @@ export class PublicationsController {
   }
 
   @Put(':id')
-  update(@Param('id') id: string, @Body() payload: UpdatePublicationDto) {
+  update(
+    @Param('id', MongoidPipe) id: string,
+    @Body() payload: UpdatePublicationDto,
+  ) {
     return this.publicationsService.update(id, payload);
   }
 
   @Delete(':id')
-  delete(@Param('id') id: string) {
+  delete(@Param('id', MongoidPipe) id: string) {
     return this.publicationsService.remove(id);
   }
 }

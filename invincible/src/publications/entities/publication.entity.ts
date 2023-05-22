@@ -1,8 +1,8 @@
 import { User } from './../../users/entities/user.entity';
 import { Comment } from './../../comments/entities/comments.entity';
-import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document } from 'mongoose';
-import { required } from 'joi';
+import { Prop, Schema, SchemaFactory, raw } from '@nestjs/mongoose';
+import { Document, Types } from 'mongoose';
+import { required, string } from 'joi';
 
 @Schema()
 export class Publication extends Document {
@@ -13,7 +13,16 @@ export class Publication extends Document {
   @Prop()
   image: string;
   date: Date;
-  user: User;
+  // @Prop(
+  //   raw({
+  //     name: { type: String },
+  //     image: { type: String },
+  //     email: { type: String },
+  //   }),
+  // )
+  // user: User;
+  @Prop({ type: Types.ObjectId, ref: User.name })
+  user: User | Types.ObjectId;
   // @Prop()
   // commment: Comment[];
 }
