@@ -20,10 +20,9 @@ import {
 export class PublicationsController {
   constructor(private publicationsService: PublicationsService) {}
   @Get(':publicationId')
-  getPublication(@Param('publicationId', ParseIntPipe) publicationId: number) {
+  getPublication(@Param('publicationId') publicationId: string) {
     return this.publicationsService.findOne(publicationId);
   }
-  //comentario de ayuda
   @Get()
   getPublications() {
     return this.publicationsService.findAll();
@@ -51,15 +50,14 @@ export class PublicationsController {
   create(@Body() payload: CreatePublicationDto) {
     return this.publicationsService.create(payload);
   }
+
   @Put(':id')
-  update(
-    @Param('id', ParseIntPipe) id: number,
-    @Body() payload: UpdatePublicationDto,
-  ) {
+  update(@Param('id') id: string, @Body() payload: UpdatePublicationDto) {
     return this.publicationsService.update(id, payload);
   }
+
   @Delete(':id')
-  delete(@Param('id', ParseIntPipe) id: number) {
+  delete(@Param('id') id: string) {
     return this.publicationsService.remove(id);
   }
 }

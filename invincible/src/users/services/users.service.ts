@@ -19,6 +19,7 @@ export class UsersService {
       id: 1,
       name: 'user 1',
       image: 'url',
+      email: 'ee.com',
       publications: [],
     },
   ];
@@ -61,13 +62,13 @@ export class UsersService {
     this.Users.splice(index, 1);
     return true;
   }
-  getPublicationByUser(id: number): User {
+  async getPublicationByUser(id: number) {
     const user = this.findOne(id);
     return {
       id: 1,
       name: 'string',
       image: 'string',
-      publications: this.publicationsService.findAll(),
+      publications: await this.publicationsService.findAll(),
     };
   }
   getUsers() {

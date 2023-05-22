@@ -1,25 +1,40 @@
 import { Module, Global } from '@nestjs/common';
+import { ConfigType } from '@nestjs/config';
 import { MongoClient } from 'mongodb';
-
-//const pubsCollection = database.collection('pubs');
-//const pubs = await pubsCollection.find().toArray();
-//console.log(pubs);
-
+import { MongooseModule } from '@nestjs/mongoose';
+import config from './../config';
 @Global()
 @Module({
+  imports: [
+    MongooseModule.forRootAsync({
+      useFactory: (configService: ConfigType<typeof config>) => {
+        const { connection, user, password, host, port, dbName } =
+          configService.mongo;
+        return {
+          uri: `${connection}://${host}:${port}`,
+          user,
+          pass: password,
+          dbName,
+        };
+      },
+      inject: [config.KEY],
+    }),
+  ],
   providers: [
     {
       provide: 'MONGO',
-      useFactory: async () => {
-        const uri =
-          'mongodb://invicible:property_password_321@localhost:27017/?authMechanism=DEFAULT';
+      useFactory: async (configService: ConfigType<typeof config>) => {
+        const { connection, user, password, host, port, dbName } =
+          configService.mongo;
+        const uri = `${connection}://${user}:${password}@${host}:${port}/?authMechanism=DEFAULT`;
         const client = new MongoClient(uri);
         await client.connect();
-        const database = client.db('invincible');
+        const database = client.db(dbName);
         return database;
       },
+      inject: [config.KEY],
     },
   ],
-  exports: ['MONGO'],
+  exports: ['MONGO', MongooseModule],
 })
 export class DatabaseModule {}

@@ -16,8 +16,8 @@ export class CreatePublicationDto {
   readonly date: Date;
   @IsNotEmpty()
   readonly user: User;
-  @IsNotEmpty()
-  readonly comments: Comment[];
+  // @IsNotEmpty()
+  // readonly comments: Comment[];
 }
 
 export class UpdatePublicationDto extends PartialType(CreatePublicationDto) {}

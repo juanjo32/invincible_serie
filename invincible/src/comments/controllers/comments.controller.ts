@@ -43,14 +43,11 @@ export class CommentsController {
     return this.commentsService.create(payload);
   }
   @Put(':id')
-  update(
-    @Param('id', ParseIntPipe) id: number,
-    @Body() payload: UpdateCommentDto,
-  ) {
+  update(@Param('id') id: string, @Body() payload: UpdateCommentDto) {
     return this.commentsService.update(id, payload);
   }
   @Delete(':id')
-  delete(@Param('id', ParseIntPipe) id: number) {
+  delete(@Param('id') id: string) {
     return this.commentsService.remove(id);
   }
 }
