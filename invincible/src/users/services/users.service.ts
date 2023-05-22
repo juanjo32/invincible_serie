@@ -1,14 +1,17 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException, Inject } from '@nestjs/common';
 import { User } from './../entities/user.entity';
 import { ConfigService } from '@nestjs/config';
 import { CreateUserDto, UpdateUserDto } from '../dtos/users.dto';
 import { Publication } from '../../publications/entities/publication.entity';
 import { PublicationsService } from './../../publications/services/publications.service';
+import { Db } from 'mongodb';
+
 @Injectable()
 export class UsersService {
   constructor(
     private publicationsService: PublicationsService,
     private configService: ConfigService,
+    @Inject('MONGO') private database: Db,
   ) {}
   private counterId = 1;
   private Users: User[] = [
@@ -66,5 +69,9 @@ export class UsersService {
       image: 'string',
       publications: this.publicationsService.findAll(),
     };
+  }
+  getUsers() {
+    const pubsCollection = this.database.collection('users');
+    return pubsCollection.find().toArray();
   }
 }

@@ -19,7 +19,8 @@ export class UsersController {
   constructor(private usersService: UsersService) {}
   @Get('')
   getUsers() {
-    return this.usersService.findAll();
+    //return this.usersService.findAll();
+    return this.usersService.getUsers();
   }
   @Get(':id/publications')
   getPublications(@Param('id', ParseIntPipe) id: number) {
