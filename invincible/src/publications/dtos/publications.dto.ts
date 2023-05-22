@@ -6,9 +6,11 @@ import {
   IsOptional,
   IsPositive,
   Min,
+  ValidateNested,
 } from 'class-validator';
 import { PartialType } from '@nestjs/swagger';
 import { User } from '../../users/entities/user.entity';
+import { CreateUserDto } from 'src/users/dtos/users.dto';
 export class CreatePublicationDto {
   @IsString({ message: 'El titulo de la publicacion debe ser un String' })
   @IsNotEmpty()
@@ -23,7 +25,8 @@ export class CreatePublicationDto {
   @IsNotEmpty()
   readonly date: Date;
   @IsNotEmpty()
-  readonly user: User;
+  @ValidateNested()
+  readonly user: CreateUserDto;
   // @IsNotEmpty()
   // readonly comments: Comment[];
 }
