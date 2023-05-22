@@ -1,7 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { Comment } from './../entities/comments.entity';
 
-import { CreateCommentDto, UpdateCommentDto } from './../dtos/comments.dtos';
+import { CreateCommentDto, UpdateCommentDto } from '../dtos/comments.dto';
 @Injectable()
 export class CommentsService {
   private counterId = 1;

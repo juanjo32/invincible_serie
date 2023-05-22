@@ -1,6 +1,6 @@
 import { IsString, IsNotEmpty } from 'class-validator';
-import { PartialType } from '@nestjs/mapped-types';
-import { User } from './../../users/entities/user.entity';
+import { PartialType } from '@nestjs/swagger';
+import { User } from '../../users/entities/user.entity';
 export class CreateCommentDto {
   @IsString()
   @IsNotEmpty()

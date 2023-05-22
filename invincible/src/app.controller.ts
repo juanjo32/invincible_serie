@@ -3,12 +3,9 @@ import { AppService } from './app.service';
 
 @Controller()
 export class AppController {
-  getHello(): any {
-    throw new Error('Method not implemented.');
+  @Get()
+  getHello(): string {
+    return this.appService.getHello();
   }
   constructor(private readonly appService: AppService) {}
-  @Get('')
-  getPage() {
-    return `Hola Gorronea`;
-  }
 }

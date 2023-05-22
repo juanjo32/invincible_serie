@@ -8,13 +8,14 @@ import {
   Delete,
   ParseIntPipe,
 } from '@nestjs/common';
-
+import { ApiTags } from '@nestjs/swagger';
 import { PublicationsService } from './../services/publications.service';
 import {
   CreatePublicationDto,
   UpdatePublicationDto,
-} from './../dtos/publications.dtos';
+} from '../dtos/publications.dto';
 
+@ApiTags('publications')
 @Controller('publications')
 export class PublicationsController {
   constructor(private publicationsService: PublicationsService) {}

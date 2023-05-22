@@ -3,7 +3,7 @@ import { Publication } from './../entities/publication.entity';
 import {
   CreatePublicationDto,
   UpdatePublicationDto,
-} from './../dtos/publications.dtos';
+} from '../dtos/publications.dto';
 import { User } from 'src/users/entities/user.entity';
 
 @Injectable()

@@ -1,6 +1,6 @@
 import { IsString, IsUrl, IsNotEmpty } from 'class-validator';
-import { PartialType } from '@nestjs/mapped-types';
-import { Publication } from './../../publications/entities/publication.entity';
+import { PartialType } from '@nestjs/swagger';
+import { Publication } from '../../publications/entities/publication.entity';
 export class CreateUserDto {
   @IsString()
   @IsNotEmpty()

@@ -12,8 +12,9 @@ import {
   ParseIntPipe,
 } from '@nestjs/common';
 import { CommentsService } from './../services/comments.service';
-import { CreateCommentDto, UpdateCommentDto } from './../dtos/comments.dtos';
-
+import { CreateCommentDto, UpdateCommentDto } from '../dtos/comments.dto';
+import { ApiTags } from '@nestjs/swagger';
+@ApiTags('Comments')
 @Controller('comments')
 export class CommentsController {
   constructor(private commentsService: CommentsService) {}

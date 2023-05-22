@@ -1,12 +1,15 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { User } from './../entities/user.entity';
-
-import { CreateUserDto, UpdateUserDto } from './../dtos/users.dtos';
+import { ConfigService } from '@nestjs/config';
+import { CreateUserDto, UpdateUserDto } from '../dtos/users.dto';
 import { Publication } from '../../publications/entities/publication.entity';
 import { PublicationsService } from './../../publications/services/publications.service';
 @Injectable()
 export class UsersService {
-  constructor(private publicationsService: PublicationsService) {}
+  constructor(
+    private publicationsService: PublicationsService,
+    private configService: ConfigService,
+  ) {}
   private counterId = 1;
   private Users: User[] = [
     {
