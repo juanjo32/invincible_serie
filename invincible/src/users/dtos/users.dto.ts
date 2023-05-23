@@ -26,6 +26,8 @@ export class CreateUserDto {
   @IsBoolean()
   @IsNotEmpty()
   readonly verified: boolean;
+  @IsNotEmpty()
+  readonly role: string;
 }
 
 export class UpdateUserDto extends PartialType(CreateUserDto) {}
