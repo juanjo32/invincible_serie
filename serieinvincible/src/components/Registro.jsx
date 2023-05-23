@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import fondo2 from '../styles/imgs/fondoLogin2.jpg'
 import Swal from 'sweetalert2';
+import axios from 'axios';
 
 export default function Registro() {
   const navigate = useNavigate();
@@ -12,7 +13,7 @@ export default function Registro() {
   const [password, setPassword] = useState('');
   const [confpassword, setConfPassword] = useState('');
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault(); //esto es pa evitar que refresque la pagina
     if (nombre==='' || email==='' || password ==='' || confpassword===''){
       Swal.fire({
@@ -37,6 +38,20 @@ export default function Registro() {
     
       
     }else{
+
+      const data = {
+        name: nombre,
+        image: "https://esic.co/wp-content/uploads/2022/08/Isis-Bonet-Cruz.jpg",
+        email: email,
+      };
+      
+      try {
+        const response = await axios.post('http://localhost:3000/users', data);
+        console.log('Response:', response.data);
+      } catch (error) {
+        console.error('Error:', error);
+      }
+  
       Swal.fire({
         icon: 'success',
         title: 'Bienvenid@! 🦸',

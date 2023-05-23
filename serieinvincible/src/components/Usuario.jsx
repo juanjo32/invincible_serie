@@ -1,12 +1,30 @@
 import React, { useState } from 'react';
 import AvatarEditor from 'react-avatar-editor';
 import vacio from '../styles/imgs/empty.jpg';
+import axios from 'axios';
+import { useEffect } from 'react';
 
 export default function ProfileImageSelect() {
     const [profileImage, setProfileImage] = useState(vacio);
     const [selectedImage, setSelectedImage] = useState(null);
     const [editor, setEditor] = useState(null);
     const [editing, setEditing] = useState(false);
+
+    const [data, setData] = useState('');
+
+    useEffect(() => {
+        fetchData();
+      }, []);
+    
+      const fetchData = async () => {
+        try {
+          const response = await axios.get('http://localhost:3000/users/1');
+          setData((response.data)); // Save the response data
+        } catch (error) {
+          console.log(error);
+        }
+      };
+
 
     const handleImageSelect = (event) => {
         const file = event.target.files[0];
@@ -28,7 +46,7 @@ export default function ProfileImageSelect() {
             <hr />
             <div className='container text-center'>
                 <div className='row mt-2'>
-                    <div className='col-12'> <strong>Usuario:</strong> Nombre Usuario </div>
+                    <div className='col-12'> <strong>Usuario:</strong> Nombre Usuario + {data.message}</div>
                     <div className='col-12'> <strong>Correo:</strong> correo.electronico@gmail.com</div>
                 </div>
                 <div className='row mb-1 mt-4'>
@@ -57,8 +75,8 @@ export default function ProfileImageSelect() {
                         )}
                     </div>
                     <div className='col-3' style={{ display: 'flex', alignItems: 'center' }}>
-                        <div class="d-flex justify-content-start row">
-                            <label for="inputImage" class="btn text-center" style={{ backgroundColor: '#fee566' }}>Cambiar foto</label>
+                        <div className="d-flex justify-content-start row">
+                            <label for="inputImage" className="btn text-center" style={{ backgroundColor: '#fee566' }}>Cambiar foto</label>
                             <input type="file" id="inputImage" style={{ display: 'none' }} onChange={handleImageSelect} accept="image/*"></input>
                             {editing && selectedImage && <button className='btn mt-2' style={{ backgroundColor: '#22788d' }} onClick={handleImageUpload}><strong>Confirmar</strong></button>}
                         </div>

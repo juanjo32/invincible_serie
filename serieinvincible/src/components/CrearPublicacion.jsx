@@ -1,6 +1,7 @@
 import React from 'react';
 import { useState } from 'react';
 import Swal from 'sweetalert2';
+import axios from 'axios';
 
 export default function CrearPublicacion() {
   const [text, setText] = useState('');
@@ -20,7 +21,7 @@ export default function CrearPublicacion() {
   }
 
 
-  const handlePublicar = (event) => {
+  const handlePublicar = async(event) => {
     event.preventDefault();
     if (text==='' || category ==='' || image ===''){
       Swal.fire({
@@ -30,6 +31,24 @@ export default function CrearPublicacion() {
         background: '#e8e8e8'
       });
     }else{
+
+      const data = {
+        text: text,
+        category: category,
+        image: "https://esic.co/wp-content/uploads/2022/08/Isis-Bonet-Cruz.jpg",
+        email: date,
+        //user
+        //id
+      };
+      
+      try {
+        const response = await axios.post('http://localhost:3000/publications', data);
+        console.log('Response:', response.data);
+      } catch (error) {
+        console.error('Error:', error);
+      }
+
+
       Swal.fire({
         icon: 'success',
         title: 'Publicado! 🌟',

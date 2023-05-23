@@ -24,7 +24,7 @@ export default function Publicacion({ user, date, text, category, image, comment
         <div className="card-footer">
           <h6>Comentarios:</h6>
           {comments.map((comment, index) => (
-            <p key={index}>{"💬"+comment}</p>
+            <p key={index}>{"💬"+ comment.user+": "+comment.comment}</p>
           ))}
         </div>
       </div>
