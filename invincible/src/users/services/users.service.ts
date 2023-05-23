@@ -1,4 +1,10 @@
-import { Injectable, NotFoundException, Inject } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  Inject,
+  HttpException,
+  HttpStatus,
+} from '@nestjs/common';
 import { User } from './../entities/user.entity';
 import { ConfigService } from '@nestjs/config';
 import { InjectModel } from '@nestjs/mongoose';
@@ -26,9 +32,16 @@ export class UsersService {
     }
     return user;
   }
-  create(data: CreateUserDto) {
-    const newPublication = new this.userModel(data);
-    return newPublication.save();
+  async create(data: CreateUserDto) {
+    const newUser = new this.userModel(data);
+    // const existingUser = await this.userModel.findOne({ name });
+    // if (existingUser) {
+    //   throw new HttpException(
+    //     'User name already exists',
+    //     HttpStatus.BAD_REQUEST,
+    //   );
+    // }
+    return newUser.save();
   }
   update(id: string, changes: UpdateUserDto) {
     const user = this.userModel
