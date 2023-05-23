@@ -40,8 +40,9 @@ export class UsersService {
     const { password, ...rta } = user.toJSON();
     return rta;
   }
-  findByEmail(email: string) {
-    return this.userModel.findOne({ email }).exec();
+  async findByEmail(email: string) {
+    const user = await this.userModel.findOne({ email }).exec();
+    return user;
   }
   update(id: string, changes: UpdateUserDto) {
     const user = this.userModel
