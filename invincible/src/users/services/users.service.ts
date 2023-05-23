@@ -13,7 +13,7 @@ import { CreateUserDto, UpdateUserDto } from '../dtos/users.dto';
 import { Publication } from '../../publications/entities/publication.entity';
 import { PublicationsService } from './../../publications/services/publications.service';
 import { Db } from 'mongodb';
-
+import * as bcrypt from 'bcrypt';
 @Injectable()
 export class UsersService {
   constructor(
@@ -34,14 +34,14 @@ export class UsersService {
   }
   async create(data: CreateUserDto) {
     const newUser = new this.userModel(data);
-    // const existingUser = await this.userModel.findOne({ name });
-    // if (existingUser) {
-    //   throw new HttpException(
-    //     'User name already exists',
-    //     HttpStatus.BAD_REQUEST,
-    //   );
-    // }
-    return newUser.save();
+    const hashPassword = await bcrypt.hash(newUser.password, 10);
+    newUser.password = hashPassword;
+    const user = await newUser.save();
+    const { password, ...rta } = user.toJSON();
+    return rta;
+  }
+  findByEmail(email: string) {
+    return this.userModel.findOne({ email }).exec();
   }
   update(id: string, changes: UpdateUserDto) {
     const user = this.userModel

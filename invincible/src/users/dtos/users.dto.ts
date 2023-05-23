@@ -21,8 +21,6 @@ export class CreateUserDto {
   readonly email: string;
   @IsString()
   @IsNotEmpty()
-  @Min(6)
-  @Max(50)
   @ApiProperty()
   readonly password: string;
   @IsBoolean()
