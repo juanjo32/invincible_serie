@@ -18,17 +18,20 @@ import {
   FilterPublicationsDto,
 } from '../dtos/publications.dto';
 import { MongoidPipe } from './../../common/mongoid/mongoid.pipe';
-import { AuthGuard } from '@nestjs/passport';
+import { JwtAuthGuard } from '../../auth/guards/jwt-auth.guard';
+import { Public } from './../../auth/decorators/public.decorator';
 
-@UseGuards(AuthGuard('jwt'))
+@UseGuards(JwtAuthGuard)
 @ApiTags('publications')
 @Controller('publications')
 export class PublicationsController {
   constructor(private publicationsService: PublicationsService) {}
+  @Public()
   @Get(':publicationId')
   getPublication(@Param('publicationId') publicationId: string) {
     return this.publicationsService.findOne(publicationId);
   }
+  @Public()
   @Get()
   @ApiOperation({ summary: 'List of publications ' })
   getPublications(@Query() params: FilterPublicationsDto) {
@@ -41,6 +44,7 @@ export class PublicationsController {
       message: `publication by user ${userId}`,
     };
   }
+  @Public()
   @Get('comments')
   getCommments() {
     return {
