@@ -9,6 +9,7 @@ import { PublicationsModule } from './publications/publications.module';
 import { CommentsModule } from './comments/comments.module';
 import { DatabaseModule } from './database/database.module';
 import { enviroments } from './enviroments';
+import { AuthModule } from './auth/auth.module';
 import config from './config';
 
 @Module({
@@ -27,6 +28,7 @@ import config from './config';
         DATABASE_PORT: Joi.number().required(),
       }),
     }),
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],

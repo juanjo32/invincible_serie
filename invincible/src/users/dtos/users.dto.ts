@@ -4,8 +4,11 @@ import {
   IsNotEmpty,
   IsArray,
   IsBoolean,
+  Length,
+  Max,
+  Min,
 } from 'class-validator';
-import { PartialType } from '@nestjs/swagger';
+import { ApiProperty, PartialType } from '@nestjs/swagger';
 import { Publication } from '../../publications/entities/publication.entity';
 export class CreateUserDto {
   @IsString()
@@ -16,6 +19,12 @@ export class CreateUserDto {
   @IsString()
   @IsNotEmpty()
   readonly email: string;
+  @IsString()
+  @IsNotEmpty()
+  @Min(6)
+  @Max(50)
+  @ApiProperty()
+  readonly password: string;
   @IsBoolean()
   @IsNotEmpty()
   readonly verified: boolean;
