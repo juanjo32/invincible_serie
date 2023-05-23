@@ -1,66 +1,56 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
+import { InjectModel } from '@nestjs/mongoose';
+import { Model } from 'mongoose';
 import { Publication } from './../entities/publication.entity';
 import {
   CreatePublicationDto,
   UpdatePublicationDto,
-} from '../dtos/publications.dto';
-import { User } from 'src/users/entities/user.entity';
+  FilterPublicationsDto,
+} from './../dtos/publications.dto';
 
 @Injectable()
 export class PublicationsService {
-  private counterId = 1;
-  private publications: Publication[] = [
-    {
-      id: 1,
-      tittle: 'This is a publication',
-      content: 'This is the content of the publication',
-      image: 'url image',
-      date: new Date(),
-      user: {
-        id: 1,
-        name: 'John Doe',
-        image: 'johndoe@example.com',
-        publications: [],
-      },
-    },
-  ];
-  findAll() {
-    return this.publications;
+  constructor(
+    @InjectModel(Publication.name) private publicationModel: Model<Publication>,
+  ) {}
+  findAll(params?: FilterPublicationsDto) {
+    if (params) {
+      const { limit, offset } = params;
+      return this.publicationModel
+        .find()
+        .populate('user')
+        .populate('comments')
+        .skip(offset)
+        .limit(limit)
+        .exec();
+    }
+    return this.publicationModel
+      .find()
+      .populate('user')
+      .populate('comments')
+      .exec();
   }
-  findOne(id: number) {
-    const publication = this.publications.find((item) => item.id === id);
+  async findOne(id: string) {
+    const publication = await this.publicationModel.findById(id).exec();
     if (!publication) {
       throw new NotFoundException(`Publications ${id} does not exists`);
     }
     return publication;
   }
-  create(payload: CreatePublicationDto) {
-    this.counterId = this.counterId + 1;
-    const newPublication = {
-      id: this.counterId,
-      ...payload,
-    };
-    this.publications.push(newPublication);
-    return newPublication;
+  create(data: CreatePublicationDto) {
+    const newPublication = new this.publicationModel(data);
+    return newPublication.save();
   }
-  update(id: number, payload: UpdatePublicationDto) {
-    const publication = this.findOne(id);
-    if (publication) {
-      const index = this.publications.findIndex((item) => item.id === id);
-      this.publications[index] = {
-        ...publication,
-        ...payload,
-      };
-      return this.publications[index];
+  update(id: string, changes: UpdatePublicationDto) {
+    const publication = this.publicationModel
+      .findByIdAndUpdate(id, { $set: changes }, { new: true })
+      .exec();
+    if (!publication) {
+      throw new NotFoundException(`Publications ${id} does not exists`);
     }
-    return null;
+    return publication;
   }
-  remove(id: number) {
-    const index = this.publications.findIndex((item) => item.id === id);
-    if (index === -1) {
-      throw new NotFoundException(`Publication #${id} not found`);
-    }
-    this.publications.splice(index, 1);
-    return true;
+  remove(id: string) {
+    return this.publicationModel.findByIdAndDelete(id);
   }
 }

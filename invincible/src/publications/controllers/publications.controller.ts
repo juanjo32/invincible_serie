@@ -7,26 +7,29 @@ import {
   Put,
   Delete,
   ParseIntPipe,
+  Query,
 } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { PublicationsService } from './../services/publications.service';
 import {
   CreatePublicationDto,
   UpdatePublicationDto,
+  FilterPublicationsDto,
 } from '../dtos/publications.dto';
+import { MongoidPipe } from './../../common/mongoid/mongoid.pipe';
 
 @ApiTags('publications')
 @Controller('publications')
 export class PublicationsController {
   constructor(private publicationsService: PublicationsService) {}
   @Get(':publicationId')
-  getPublication(@Param('publicationId', ParseIntPipe) publicationId: number) {
+  getPublication(@Param('publicationId') publicationId: string) {
     return this.publicationsService.findOne(publicationId);
   }
-  //comentario de ayuda
   @Get()
-  getPublications() {
-    return this.publicationsService.findAll();
+  @ApiOperation({ summary: 'List of publications ' })
+  getPublications(@Query() params: FilterPublicationsDto) {
+    return this.publicationsService.findAll(params);
   }
 
   @Get('users/:userId')
@@ -51,15 +54,17 @@ export class PublicationsController {
   create(@Body() payload: CreatePublicationDto) {
     return this.publicationsService.create(payload);
   }
+
   @Put(':id')
   update(
-    @Param('id', ParseIntPipe) id: number,
+    @Param('id', MongoidPipe) id: string,
     @Body() payload: UpdatePublicationDto,
   ) {
     return this.publicationsService.update(id, payload);
   }
+
   @Delete(':id')
-  delete(@Param('id', ParseIntPipe) id: number) {
+  delete(@Param('id', MongoidPipe) id: string) {
     return this.publicationsService.remove(id);
   }
 }

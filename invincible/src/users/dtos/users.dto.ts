@@ -1,4 +1,10 @@
-import { IsString, IsUrl, IsNotEmpty } from 'class-validator';
+import {
+  IsString,
+  IsUrl,
+  IsNotEmpty,
+  IsArray,
+  IsBoolean,
+} from 'class-validator';
 import { PartialType } from '@nestjs/swagger';
 import { Publication } from '../../publications/entities/publication.entity';
 export class CreateUserDto {
@@ -6,12 +12,13 @@ export class CreateUserDto {
   @IsNotEmpty()
   readonly name: string;
   @IsUrl()
-  @IsNotEmpty()
   readonly image: string;
   @IsString()
   @IsNotEmpty()
   readonly email: string;
-  readonly publications: Publication[];
+  @IsBoolean()
+  @IsNotEmpty()
+  readonly verified: boolean;
 }
 
 export class UpdateUserDto extends PartialType(CreateUserDto) {}

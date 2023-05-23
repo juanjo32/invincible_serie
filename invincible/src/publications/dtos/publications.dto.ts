@@ -1,6 +1,18 @@
-import { IsString, IsUrl, IsDate, IsNotEmpty } from 'class-validator';
-import { PartialType } from '@nestjs/swagger';
+import {
+  IsString,
+  IsUrl,
+  IsDate,
+  IsNotEmpty,
+  IsOptional,
+  IsPositive,
+  Min,
+  ValidateNested,
+  IsMongoId,
+  IsArray,
+} from 'class-validator';
+import { PartialType, OmitType } from '@nestjs/swagger';
 import { User } from '../../users/entities/user.entity';
+import { CreateUserDto } from 'src/users/dtos/users.dto';
 export class CreatePublicationDto {
   @IsString({ message: 'El titulo de la publicacion debe ser un String' })
   @IsNotEmpty()
@@ -15,9 +27,22 @@ export class CreatePublicationDto {
   @IsNotEmpty()
   readonly date: Date;
   @IsNotEmpty()
-  readonly user: User;
+  @IsMongoId()
+  readonly user: string;
+  @IsArray()
   @IsNotEmpty()
-  readonly comments: Comment[];
+  readonly comments: string[];
 }
 
-export class UpdatePublicationDto extends PartialType(CreatePublicationDto) {}
+export class UpdatePublicationDto extends PartialType(
+  OmitType(CreatePublicationDto, ['comments']),
+) {}
+
+export class FilterPublicationsDto {
+  @IsOptional()
+  @IsPositive()
+  limit: number;
+  @IsOptional()
+  @Min(0)
+  offset: number;
+}
