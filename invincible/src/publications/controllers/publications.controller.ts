@@ -8,6 +8,7 @@ import {
   Delete,
   ParseIntPipe,
   Query,
+  UseGuards,
 } from '@nestjs/common';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { PublicationsService } from './../services/publications.service';
@@ -17,7 +18,9 @@ import {
   FilterPublicationsDto,
 } from '../dtos/publications.dto';
 import { MongoidPipe } from './../../common/mongoid/mongoid.pipe';
+import { AuthGuard } from '@nestjs/passport';
 
+@UseGuards(AuthGuard('jwt'))
 @ApiTags('publications')
 @Controller('publications')
 export class PublicationsController {
