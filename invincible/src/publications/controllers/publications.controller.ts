@@ -20,7 +20,7 @@ import {
 import { MongoidPipe } from './../../common/mongoid/mongoid.pipe';
 import { JwtAuthGuard } from '../../auth/guards/jwt-auth.guard';
 import { Public } from './../../auth/decorators/public.decorator';
-
+import { Roles } from '../../auth/decorators/roles.decorator';
 @UseGuards(JwtAuthGuard)
 @ApiTags('publications')
 @Controller('publications')
