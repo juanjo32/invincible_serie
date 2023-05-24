@@ -19,6 +19,14 @@ export class CommentsService {
     }
     return Comment;
   }
+  async findComments(publicationId: string) {
+    const comments = await this.commentModel.find({ publicationId });
+    comments.forEach(async (comment) => {
+      comment.user = await comment.populate('name');
+    });
+
+    return comments;
+  }
   create(data: CreateCommentDto) {
     const newComment = new this.commentModel(data);
     return newComment.save();
