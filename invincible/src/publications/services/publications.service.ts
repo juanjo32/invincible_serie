@@ -20,6 +20,7 @@ export class PublicationsService {
         .find()
         .populate('user')
         .populate('comments')
+        .populate({ path: 'comments', populate: 'user' })
         .skip(offset)
         .limit(limit)
         .exec();
@@ -28,6 +29,7 @@ export class PublicationsService {
       .find()
       .populate('user')
       .populate('comments')
+      .populate({ path: 'comments', populate: 'user' })
       .exec();
   }
   async findOne(id: string) {

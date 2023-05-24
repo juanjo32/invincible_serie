@@ -6,20 +6,6 @@ import { CreateCommentDto, UpdateCommentDto } from '../dtos/comments.dto';
 
 @Injectable()
 export class CommentsService {
-  // private counterId = 1;
-  // private comments: Comment[] = [
-  //   {
-  //     id: 1,
-  //     content: 'Deproto es o depronto no es',
-  //     user: {
-  //       id: 1,
-  //       name: 'user 1',
-  //       image: 'url',
-  //       email: 'gmail.com',
-  //       publications: [],
-  //     },
-  //   },
-  // ];
   constructor(
     @InjectModel(Comment.name) private commentModel: Model<Comment>,
   ) {}
@@ -32,6 +18,14 @@ export class CommentsService {
       throw new NotFoundException(`comments ${id} does not exists`);
     }
     return Comment;
+  }
+  async findComments(publicationId: string) {
+    const comments = await this.commentModel.find({ publicationId });
+    comments.forEach(async (comment) => {
+      comment.user = await comment.populate('name');
+    });
+
+    return comments;
   }
   create(data: CreateCommentDto) {
     const newComment = new this.commentModel(data);
