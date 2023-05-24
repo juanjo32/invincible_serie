@@ -3,11 +3,22 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faHouse, faNewspaper, faUpload, faUser, faArrowRightFromBracket } from '@fortawesome/free-solid-svg-icons'
 import { useNavigate } from "react-router-dom";
 import Swal from 'sweetalert2';
+import { useContext } from 'react';
+import MyContext from './context';
 
 
 export default function LateralNavbar() {
   let tamanoIcon = "1x";
   const navigate = useNavigate();
+  const { UsuarioGlobal, setUsuarioGlobal, clearLocalStorage} = useContext(MyContext);
+
+
+  const logout = () => {
+    setUsuarioGlobal(null);
+    clearLocalStorage();
+    //await signOut(auth);
+  }
+
 
   const handleSignOut = (event) => {
     Swal.fire({
@@ -18,6 +29,7 @@ export default function LateralNavbar() {
       cancelButtonText: 'No',
     }).then((result) => {
       if (result.isConfirmed) {
+        logout();
         navigate('/')
       }
     });

@@ -3,6 +3,8 @@ import React, { useState } from 'react';
 import vacio from '../styles/imgs/empty.jpg'; */
 import axios from 'axios';
 import { useEffect } from 'react';
+import MyContext from './context';
+import { useContext } from 'react';
 
 export default function ProfileImageSelect() {
     /* const [profileImage, setProfileImage] = useState(vacio);
@@ -15,6 +17,7 @@ export default function ProfileImageSelect() {
 
     const [data, setData] = useState('');
     const inpBackCol = { backgroundColor: '#2b3036', borderColor: '#86857e', outlineColor: 'none' }
+    const { UsuarioGlobal } = useContext(MyContext);
 
     useEffect(() => {
         fetchData();
@@ -22,7 +25,7 @@ export default function ProfileImageSelect() {
 
     const fetchData = async () => {
         try {
-            const response = await axios.get('http://localhost:3000/users/1');
+            const response = await axios.get('http://localhost:3000/users/');
             setData((response.data)); // Save the response data
             console.log(response.data);
         } catch (error) {

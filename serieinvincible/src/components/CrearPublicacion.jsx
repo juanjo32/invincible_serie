@@ -2,6 +2,8 @@ import React from 'react';
 import { useState } from 'react';
 import Swal from 'sweetalert2';
 import axios from 'axios';
+import MyContext from './context';
+import { useContext } from 'react';
 
 export default function CrearPublicacion() {
   const [text, setText] = useState('');
@@ -9,6 +11,7 @@ export default function CrearPublicacion() {
   const [image, setImage] = useState('');
   const date = new Date();
   const inpBackCol = { backgroundColor: '#2b3036', borderColor: '#86857e', outlineColor: 'none' }
+  const { UsuarioGlobal } = useContext(MyContext);
 
 
   function formatDateTime(date) {
@@ -16,33 +19,42 @@ export default function CrearPublicacion() {
     const formattedTime = date.toLocaleString('en-US', options);
     const formattedDate = date.toLocaleString('en-US', { month: 'long', day: 'numeric' });
     const formattedYear = date.getFullYear();
-  
+
     return `${formattedTime}, ${formattedDate}-${formattedYear}`;
   }
 
 
-  const handlePublicar = async(event) => {
+  const handlePublicar = async (event) => {
     event.preventDefault();
-    if (text==='' || category ==='' || image ===''){
+    console.log(UsuarioGlobal[0].token.access_token)
+    if (text === '' || category === '' || image === '') {
       Swal.fire({
         icon: 'error',
         title: 'Error',
         text: 'Complete los campos',
         background: '#e8e8e8'
       });
-    }else{
+    } else {
+
+      console.log('tittle: '+category)
+      console.log('text: '+ text)
+      console.log('image: '+image)
 
       const data = {
         tittle: category,
         content: text,
         image: image,
-        date: date,
-        user: 'Yo',
-        id: '646d5f6d0d5f9c1fc5f81325'
+        date:"2023-01-01",
+        user: UsuarioGlobal[0].token.user._id,
+        comments: [],
       };
-      
+
       try {
-        const response = await axios.post('http://localhost:3000/publications', data);
+        const response = await axios.post('http://localhost:3000/publications', data, {
+          headers: {
+            'Authorization': `Bearer ${UsuarioGlobal[0].token.access_token}`
+          }
+        });
         console.log('Response:', response.data);
         Swal.fire({
           icon: 'success',
@@ -54,12 +66,12 @@ export default function CrearPublicacion() {
         Swal.fire({
           icon: 'error',
           title: 'Error',
-          text: 'Ocurrio el error: '+error
+          text: 'Ocurrio el error: ' + error
         });
       }
 
 
-      
+
       setCategory('');
       setImage('');
       setText('');
@@ -76,7 +88,7 @@ export default function CrearPublicacion() {
             <div className='row'>
               <div className="col-6">
                 <strong>
-                  {"Current User / "}  <input type="text" className="text-white" style={inpBackCol} value={category} onChange={(event) => setCategory(event.target.value)} placeholder="Categoria" />
+                  {UsuarioGlobal[0].token.user.name + ' /'}  <input type="text" className="text-white" style={inpBackCol} value={category} onChange={(event) => setCategory(event.target.value)} placeholder="Categoria" />
                 </strong>
               </div>
               <div className="col-6 text-end text-muted">{formatDateTime(date)}</div>

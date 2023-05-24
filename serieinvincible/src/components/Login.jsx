@@ -1,17 +1,26 @@
 import React from 'react';
-import { useState } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import fondo2 from '../styles/imgs/fondoLogin2.jpg'
 import Swal from 'sweetalert2';
 import { NavLink } from 'react-router-dom';
+import MyContext from './context';
+import axios from 'axios';
 
 export default function Login() {
   const navigate = useNavigate();
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  
 
-  const handleSubmit = (event) => {
+  const { UsuarioGlobal, setUsuarioGlobal, clearLocalStorage} = useContext(MyContext);
+  
+  useEffect(() => {
+    setUsuarioGlobal(null);
+  }, []);
+
+  const handleSubmit = async (event) => {
     event.preventDefault(); //esto es pa evitar que refresque la pagina
     if (email==='' || password ===''){
       Swal.fire({
@@ -28,6 +37,24 @@ export default function Login() {
     }else if(false){
       //aqui la verificacion en DB de que exite
     }else{
+      const data = {
+        email: email,
+        password: password,     
+      };
+
+      try {
+        const response = await axios.post('http://localhost:3000/auth/login', data);
+        console.log('Response:', response.data);
+        setUsuarioGlobal([{ "token": response.data}]);
+
+      }catch (error) {
+        console.error('Error:', error);
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: 'Ocurrio el error: '+error
+        });
+      }
       navigate('/home');
     }
     
