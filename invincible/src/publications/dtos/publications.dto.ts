@@ -9,6 +9,7 @@ import {
   ValidateNested,
   IsMongoId,
   IsArray,
+  IsBoolean,
 } from 'class-validator';
 import { PartialType, OmitType } from '@nestjs/swagger';
 import { User } from '../../users/entities/user.entity';
@@ -32,6 +33,9 @@ export class CreatePublicationDto {
   @IsArray()
   @IsNotEmpty()
   readonly comments: string[];
+  @IsBoolean()
+  @IsNotEmpty()
+  readonly isNovedad: boolean;
 }
 
 export class UpdatePublicationDto extends PartialType(

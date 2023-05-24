@@ -24,5 +24,7 @@ export class Publication extends Document {
   // user: User;
   @Prop({ type: [{ type: Types.ObjectId, ref: Comment.name }] })
   comments: Types.Array<Comment>;
+  @Prop()
+  isNovedad: boolean;
 }
 export const PublicationSchema = SchemaFactory.createForClass(Publication);
