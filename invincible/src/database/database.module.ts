@@ -6,12 +6,13 @@ import config from './../config';
 @Global()
 @Module({
   imports: [
+    //MongooseModule.forRoot(process.env.URI_MONGODB),
     MongooseModule.forRootAsync({
       useFactory: (configService: ConfigType<typeof config>) => {
         const { connection, user, password, host, dbName } =
           configService.mongo;
         return {
-          uri: `${connection}://${host}`,
+          uri: `${connection}://${user}:${password}@${host}/?retryWrites=true&w=majority`,
           user,
           pass: password,
           dbName,
@@ -26,7 +27,10 @@ import config from './../config';
       useFactory: async (configService: ConfigType<typeof config>) => {
         const { connection, user, password, host, dbName } =
           configService.mongo;
-        const uri = `${connection}://${user}:${password}@${host}/?authMechanism=DEFAULT`;
+        const uri = `mongodb+srv://invincible:property_password_321@invincible.hjddlxk.mongodb.net/?retryWrites=true&w=majority`;
+        //const uri = `${connection}://${user}:${password}@${host}/?retryWrites=true&w=majority`;
+        //const uri = `${connection}://${user}:${password}@${host}/${dbName}`;
+        //const uri = process.env.URI_MONGODB;
         const client = new MongoClient(uri);
         await client.connect();
         const database = client.db(dbName);
