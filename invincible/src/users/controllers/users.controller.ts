@@ -28,9 +28,7 @@ export class UsersController {
   }
   @Get(':userId')
   getUser(@Param('userId') userId: string) {
-    return {
-      message: `User By Id ${userId} `,
-    };
+    return this.usersService.findOne(userId);
   }
   @Post()
   create(@Body() payload: CreateUserDto) {

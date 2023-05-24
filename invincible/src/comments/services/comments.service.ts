@@ -6,20 +6,6 @@ import { CreateCommentDto, UpdateCommentDto } from '../dtos/comments.dto';
 
 @Injectable()
 export class CommentsService {
-  // private counterId = 1;
-  // private comments: Comment[] = [
-  //   {
-  //     id: 1,
-  //     content: 'Deproto es o depronto no es',
-  //     user: {
-  //       id: 1,
-  //       name: 'user 1',
-  //       image: 'url',
-  //       email: 'gmail.com',
-  //       publications: [],
-  //     },
-  //   },
-  // ];
   constructor(
     @InjectModel(Comment.name) private commentModel: Model<Comment>,
   ) {}
