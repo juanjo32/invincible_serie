@@ -1,4 +1,5 @@
 import React from "react";
+import { useState } from "react";
 
 export default function Publicacion({
   user,
@@ -9,19 +10,25 @@ export default function Publicacion({
   image,
   comments,
 }) {
+  const [commentText, setCommentText] = useState('');
+  const inpBackCol = { backgroundColor: '#2b3036', borderColor: '#86857e', outlineColor: 'none', width: '100%', display: 'flex' }
+
+  const handleComment = async (event) => {
+  }
+
   return (
     <div className="container mb-4">
       <div className="card bg-dark text-white">
         <div className="card-header">
           <div className="row">
             <div className="col-6">
-                <img
-                  src={profileimg}
-                  className="img-fluid rounded"
-                  alt="👤"
-                  style={{height:'20px', width:'20px'}}
-                />
-              <strong>{" "+user + " / " + category}</strong>
+              <img
+                src={profileimg}
+                className="img-fluid rounded"
+                alt="👤"
+                style={{ height: '20px', width: '20px' }}
+              />
+              <strong>{" " + user + " / " + category}</strong>
             </div>
             <div className="col-6 text-end text-muted">{date}</div>
           </div>
@@ -46,6 +53,12 @@ export default function Publicacion({
           {comments.map((comment, index) => (
             <p key={index}>{"💬" + comment.user.name + ": " + comment.content}</p>
           ))}
+          <div className="row">
+            <div className="col-12"> <h6> <textarea type="text" className="text-white" style={inpBackCol} value={commentText} onChange={(event) => setCommentText(event.target.value)} placeholder="Espacio para que comentes ¡expresate!" /></h6></div>
+          </div>
+          <div className="row">
+            <div className="text-end">  <button type="button" className="btn align-text-end text-white" style={{ backgroundColor: '#11141b', alignSelf: 'end' }} onClick={handleComment} >comentar!</button></div>
+          </div>
         </div>
       </div>
     </div>
