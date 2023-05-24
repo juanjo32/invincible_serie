@@ -40,24 +40,32 @@ export default function Registro() {
     }else{
 
       const data = {
+        password: password,
         name: nombre,
-        image: "https://esic.co/wp-content/uploads/2022/08/Isis-Bonet-Cruz.jpg",
         email: email,
+        image: "https://esic.co/wp-content/uploads/2022/08/Isis-Bonet-Cruz.jpg",
+        verified: false,
+        role: 'nose'
       };
       
       try {
         const response = await axios.post('http://localhost:3000/users', data);
         console.log('Response:', response.data);
+        Swal.fire({
+          icon: 'success',
+          title: 'Bienvenid@! 🦸',
+          text: 'Te has registrado con exito, inicia sesión'
+        });
+        navigate('/');
       } catch (error) {
         console.error('Error:', error);
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: 'Ocurrio el error: '+error
+        });
       }
-  
-      Swal.fire({
-        icon: 'success',
-        title: 'Bienvenid@! 🦸',
-        text: 'Te has registrado con exito, inicia sesión'
-      });
-      navigate('/');
+      
     }
     
   };

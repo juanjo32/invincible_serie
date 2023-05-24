@@ -33,27 +33,33 @@ export default function CrearPublicacion() {
     }else{
 
       const data = {
-        text: text,
-        category: category,
-        image: "https://esic.co/wp-content/uploads/2022/08/Isis-Bonet-Cruz.jpg",
-        email: date,
-        //user
-        //id
+        tittle: category,
+        content: text,
+        image: image,
+        date: date,
+        user: 'Yo',
+        id: '646d5f6d0d5f9c1fc5f81325'
       };
       
       try {
         const response = await axios.post('http://localhost:3000/publications', data);
         console.log('Response:', response.data);
+        Swal.fire({
+          icon: 'success',
+          title: 'Publicado! 🌟',
+          text: 'Tu publicación fue completada con exito'
+        });
       } catch (error) {
         console.error('Error:', error);
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: 'Ocurrio el error: '+error
+        });
       }
 
 
-      Swal.fire({
-        icon: 'success',
-        title: 'Publicado! 🌟',
-        text: 'Tu publicación fue completada con exito'
-      });
+      
       setCategory('');
       setImage('');
       setText('');

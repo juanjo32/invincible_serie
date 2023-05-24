@@ -8,13 +8,19 @@ import Novedades from './components/Novedades';
 import CrearPublicacion from './components/CrearPublicacion';
 import Usuario from './components/Usuario';
 import Registro from './components/Registro';
+/* import ProtectedRoute from './components/ProtectedRoute';
+import useLocalStorage from './components/useLocalStorage';
+import MyContext from './components/context'; */
 
 
 function App() {
+
   return (
     <div className="App">
     <Routes>
     <Route exact path='/' element={<Login/>}/>
+    {/* <Route path="/app" element={<ProtectedRoute element={<Home/>}/>}/> */}
+    <Route path="/app" element={<Home/>}/>
     <Route path='/registro' element={<Registro/>} />
     <Route path='/home' element={<Grid elemento={<Home/>}/>} />
     <Route path='/novedades' element={<Grid elemento={<Novedades/>}/>} />
