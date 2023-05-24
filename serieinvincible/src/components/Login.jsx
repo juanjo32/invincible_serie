@@ -14,11 +14,11 @@ export default function Login() {
   const [password, setPassword] = useState('');
   
 
-  const { UsuarioGlobal, setUsuarioGlobal, clearLocalStorage} = useContext(MyContext);
+  const { setUsuarioGlobal} = useContext(MyContext);
   
   useEffect(() => {
     setUsuarioGlobal(null);
-  }, []);
+  });
 
   const handleSubmit = async (event) => {
     event.preventDefault(); //esto es pa evitar que refresque la pagina

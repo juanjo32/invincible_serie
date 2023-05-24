@@ -2,6 +2,7 @@ import React from "react";
 
 export default function Publicacion({
   user,
+  profileimg,
   date,
   text,
   category,
@@ -14,7 +15,13 @@ export default function Publicacion({
         <div className="card-header">
           <div className="row">
             <div className="col-6">
-              <strong>{user + " / " + category}</strong>
+                <img
+                  src={profileimg}
+                  className="img-fluid rounded"
+                  alt="👤"
+                  style={{height:'20px', width:'20px'}}
+                />
+              <strong>{" "+user + " / " + category}</strong>
             </div>
             <div className="col-6 text-end text-muted">{date}</div>
           </div>
@@ -24,7 +31,7 @@ export default function Publicacion({
             <div className="col-md-2 col-lg-2">
               <img
                 src={image}
-                className="img-fluid"
+                className="img-fluid rounded"
                 alt="Error al cargar la imagen 😢"
                 style={{ height: "100%", objectFit: "cover" }}
               />
@@ -36,9 +43,9 @@ export default function Publicacion({
         </div>
         <div className="card-footer">
           <h6>Comentarios:</h6>
-           {comments.map((comment, index) => (
-            <p key={index}>{"💬"+ comment.user.name+": "+comment.content}</p>
-          ))} 
+          {comments.map((comment, index) => (
+            <p key={index}>{"💬" + comment.user.name + ": " + comment.content}</p>
+          ))}
         </div>
       </div>
     </div>

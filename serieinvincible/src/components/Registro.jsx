@@ -43,8 +43,8 @@ export default function Registro() {
         password: password,
         name: nombre,
         email: email,
-        image: "https://esic.co/wp-content/uploads/2022/08/Isis-Bonet-Cruz.jpg",
-        verified: false,
+        image: "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b5/Windows_10_Default_Profile_Picture.svg/2048px-Windows_10_Default_Profile_Picture.svg.png",
+        verified: true,
         role: 'nose'
       };
       

@@ -10,7 +10,7 @@ import MyContext from './context';
 export default function LateralNavbar() {
   let tamanoIcon = "1x";
   const navigate = useNavigate();
-  const { UsuarioGlobal, setUsuarioGlobal, clearLocalStorage} = useContext(MyContext);
+  const { setUsuarioGlobal, clearLocalStorage} = useContext(MyContext);
 
 
   const logout = () => {

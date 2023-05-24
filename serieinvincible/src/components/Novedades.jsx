@@ -2,6 +2,7 @@ import React from "react";
 import Publicacion from "./Publicacion";
 import { useState, useEffect } from "react";
 import axios from "axios";
+import Loading from "./Loading";
 
 export default function Novedades() {
   const [data, setData] = useState();
@@ -26,14 +27,28 @@ export default function Novedades() {
 
   function renderPublications() {
     if (data && data.length > 0) {
-      return data.map((item, index) => <Publicacion key={index} user={item.user.name}
-      date={item.date}
-      text={item.content}
-      category={item.tittle}
-      image={item.image}
-      comments={item.comments}></Publicacion>);
+      return data.map((item, index) => {
+  
+        if (item.isNovedad) {
+          return (
+            <Publicacion
+              key={index}
+              profileimg={item.user.image}
+              user={item.user.name}
+              date={item.date}
+              text={item.content}
+              category={item.tittle}
+              image={item.image}
+              comments={item.comments}
+            ></Publicacion>
+          );
+        }
+        return null; // If item.isVerified is false, return null to skip rendering the component
+      });
+      
     } else {
       return <center>
+      <Loading/>
           </center>
     ;
     }

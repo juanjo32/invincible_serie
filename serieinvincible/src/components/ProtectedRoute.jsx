@@ -6,7 +6,6 @@ import Swal from 'sweetalert2';
 function ProtectedRoute({element}) {
   const { UsuarioGlobal } = useContext(MyContext);
 
-  console.log(UsuarioGlobal)
   //aqui el llamado al user token
 
     if (UsuarioGlobal!== null/*  && userToken */){

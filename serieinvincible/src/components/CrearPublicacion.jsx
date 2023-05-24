@@ -36,10 +36,6 @@ export default function CrearPublicacion() {
       });
     } else {
 
-      console.log('tittle: '+category)
-      console.log('text: '+ text)
-      console.log('image: '+image)
-
       const data = {
         tittle: category,
         content: text,
@@ -47,6 +43,7 @@ export default function CrearPublicacion() {
         date:"2023-01-01",
         user: UsuarioGlobal[0].token.user._id,
         comments: [],
+        isNovedad: UsuarioGlobal[0].token.user.verified
       };
 
       try {
@@ -87,8 +84,14 @@ export default function CrearPublicacion() {
           <div className="card-header">
             <div className='row'>
               <div className="col-6">
+              <img
+                  src={UsuarioGlobal[0].token.user.image}
+                  className="img-fluid rounded"
+                  alt="👤"
+                  style={{height:'20px', width:'20px'}}
+                />
                 <strong>
-                  {UsuarioGlobal[0].token.user.name + ' /'}  <input type="text" className="text-white" style={inpBackCol} value={category} onChange={(event) => setCategory(event.target.value)} placeholder="Categoria" />
+                  {" "+UsuarioGlobal[0].token.user.name + ' /'}  <input type="text" className="text-white" style={inpBackCol} value={category} onChange={(event) => setCategory(event.target.value)} placeholder="Categoria" />
                 </strong>
               </div>
               <div className="col-6 text-end text-muted">{formatDateTime(date)}</div>
