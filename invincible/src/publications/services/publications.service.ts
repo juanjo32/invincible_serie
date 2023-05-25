@@ -1,4 +1,8 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  Injectable,
+  InternalServerErrorException,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Publication } from './../entities/publication.entity';
@@ -72,6 +76,19 @@ export class PublicationsService {
     const newPublication = new this.publicationModel(data);
     return newPublication.save();
   }
+  // async createComment(publicationId: string, data: CreateCommentDto) {
+  //   const Publication = await this.findOne(publicationId);
+  //   if (!Publication) {
+  //     throw new NotFoundException(
+  //       `Publication with ${publicationId} does not exists`,
+  //     );
+  //   }
+  //   const newComment = new this.commentModel(data);
+  //   Publication.comments.push(newComment);
+  //   newComment.save();
+  //   await Publication.save();
+  //   return newComment;
+  // }
   async createComment(publicationId: string, data: CreateCommentDto) {
     const Publication = await this.findOne(publicationId);
     if (!Publication) {
@@ -79,11 +96,34 @@ export class PublicationsService {
         `Publication with ${publicationId} does not exists`,
       );
     }
+
     const newComment = new this.commentModel(data);
     Publication.comments.push(newComment);
-    newComment.save();
-    await Publication.save();
+
+    await this.saveComment(newComment);
+    await this.savePublication(Publication);
+
     return newComment;
+  }
+
+  private async saveComment(comment: Comment) {
+    try {
+      await comment.save();
+    } catch (error) {
+      throw new InternalServerErrorException(
+        `Error saving comment: ${error.message}`,
+      );
+    }
+  }
+
+  private async savePublication(publication: Publication) {
+    try {
+      await publication.save();
+    } catch (error) {
+      throw new InternalServerErrorException(
+        `Error saving publication: ${error.message}`,
+      );
+    }
   }
   update(id: string, changes: UpdatePublicationDto) {
     const publication = this.publicationModel
