@@ -5,7 +5,7 @@ import { PublicationsController } from './controllers/publications.controller';
 import { PublicationsService } from './services/publications.service';
 import { CommentsModule } from '../comments/comments.module';
 import { Publication, PublicationSchema } from './entities/publication.entity';
-
+import { CommentSchema } from '../comments/entities/comments.entity';
 @Module({
   imports: [
     MongooseModule.forFeature([
@@ -14,6 +14,7 @@ import { Publication, PublicationSchema } from './entities/publication.entity';
         schema: PublicationSchema,
       },
     ]),
+    MongooseModule.forFeature([{ name: 'Comment', schema: CommentSchema }]),
     CommentsModule,
   ],
   // imports: [CommentsModule],

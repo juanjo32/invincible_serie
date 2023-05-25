@@ -7,41 +7,71 @@ import {
   UpdatePublicationDto,
   FilterPublicationsDto,
 } from './../dtos/publications.dto';
-
+import { CreateCommentDto } from '../../comments/dtos/comments.dto';
+import { Comment } from '../../comments/entities/comments.entity';
 @Injectable()
 export class PublicationsService {
   constructor(
     @InjectModel(Publication.name) private publicationModel: Model<Publication>,
+    @InjectModel(Comment.name) private commentModel: Model<Comment>,
   ) {}
   findAll(params?: FilterPublicationsDto) {
     if (params) {
       const { limit, offset } = params;
-      return this.publicationModel
+      return (
+        this.publicationModel
+          .find()
+          .populate('user')
+          //.populate('comments')
+          //.populate({ path: 'comments', populate: 'user' })
+          .skip(offset)
+          .limit(limit)
+          .exec()
+      );
+    }
+    return (
+      this.publicationModel
         .find()
         .populate('user')
-        .populate('comments')
-        .populate({ path: 'comments', populate: 'user' })
-        .skip(offset)
-        .limit(limit)
-        .exec();
-    }
-    return this.publicationModel
-      .find()
-      .populate('user')
-      .populate('comments')
-      .populate({ path: 'comments', populate: 'user' })
-      .exec();
+        //.populate('comments')
+        //.populate({ path: 'comments', populate: 'user' })
+        .exec()
+    );
   }
   async findOne(id: string) {
     const publication = await this.publicationModel.findById(id).exec();
     if (!publication) {
       throw new NotFoundException(`Publications ${id} does not exists`);
     }
-    return publication;
+    return publication.populate('user');
+  }
+  async findOn(id: string) {
+    const publication = await this.publicationModel.findOne({ _id: id }).exec();
+    if (!publication) {
+      throw new NotFoundException(`Publications ${id} does not exists`);
+    }
+    return publication.populate('user');
+  }
+  async getPublicationWithComments(
+    publicationId: string,
+  ): Promise<Publication> {
+    return this.publicationModel.findById(publicationId).exec();
   }
   create(data: CreatePublicationDto) {
     const newPublication = new this.publicationModel(data);
     return newPublication.save();
+  }
+  async createComment(publicationId: string, data: CreateCommentDto) {
+    const Publication = await this.findOne(publicationId);
+    if (!Publication) {
+      throw new NotFoundException(
+        `Publication with ${publicationId} does not exists`,
+      );
+    }
+    const newComment = new this.commentModel(data);
+    Publication.comments.push(newComment);
+    await Publication.save();
+    return newComment;
   }
   update(id: string, changes: UpdatePublicationDto) {
     const publication = this.publicationModel
