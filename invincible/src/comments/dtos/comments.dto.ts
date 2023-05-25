@@ -6,7 +6,7 @@ export class CreateCommentDto {
   @IsNotEmpty()
   readonly content: string;
   @IsNotEmpty()
-  @IsMongoId()
+  @IsString()
   readonly user: string;
 }
 

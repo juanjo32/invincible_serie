@@ -18,35 +18,41 @@ export class PublicationsService {
   findAll(params?: FilterPublicationsDto) {
     if (params) {
       const { limit, offset } = params;
-      return (
-        this.publicationModel
-          .find()
-          .populate('user')
-          //.populate('comments')
-          //.populate({ path: 'comments', populate: 'user' })
-          .skip(offset)
-          .limit(limit)
-          .exec()
-      );
-    }
-    return (
-      this.publicationModel
+      return this.publicationModel
         .find()
         .populate('user')
-        //.populate('comments')
-        //.populate({ path: 'comments', populate: 'user' })
-        .exec()
-    );
+        .populate('comments')
+        .populate({ path: 'comments', populate: 'user' })
+        .skip(offset)
+        .limit(limit)
+        .exec();
+    }
+    return this.publicationModel
+      .find()
+      .populate('user')
+      .populate('comments')
+      .populate({ path: 'comments', populate: 'user' })
+      .exec();
   }
   async findOne(id: string) {
-    const publication = await this.publicationModel.findById(id).exec();
+    const publication = await this.publicationModel
+      .findById(id)
+      .populate('user')
+      .populate('comments')
+      .populate({ path: 'comments', populate: 'user' })
+      .exec();
     if (!publication) {
       throw new NotFoundException(`Publications ${id} does not exists`);
     }
     return publication.populate('user');
   }
   async findOn(id: string) {
-    const publication = await this.publicationModel.findOne({ _id: id }).exec();
+    const publication = await this.publicationModel
+      .findOne({ _id: id })
+      .populate('user')
+      .populate('comments')
+      .populate({ path: 'comments', populate: 'user' })
+      .exec();
     if (!publication) {
       throw new NotFoundException(`Publications ${id} does not exists`);
     }
@@ -55,7 +61,12 @@ export class PublicationsService {
   async getPublicationWithComments(
     publicationId: string,
   ): Promise<Publication> {
-    return this.publicationModel.findById(publicationId).exec();
+    return this.publicationModel
+      .findById(publicationId)
+      .populate('user')
+      .populate('comments')
+      .populate({ path: 'comments', populate: 'user' })
+      .exec();
   }
   create(data: CreatePublicationDto) {
     const newPublication = new this.publicationModel(data);

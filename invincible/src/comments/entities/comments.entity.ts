@@ -7,8 +7,10 @@ import { Document, Types } from 'mongoose';
 export class Comment extends Document {
   @Prop({ required: true })
   content: string;
-  @Prop({ type: Types.ObjectId, ref: User.name })
-  user: User | Types.ObjectId;
+  // @Prop({ type: Types.ObjectId, ref: User.name })
+  // user: User | Types.ObjectId;
+  @Prop({ required: true })
+  user: string;
 }
 
 export const CommentSchema = SchemaFactory.createForClass(Comment);
