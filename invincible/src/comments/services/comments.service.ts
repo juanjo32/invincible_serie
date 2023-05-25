@@ -13,7 +13,12 @@ export class CommentsService {
     return this.commentModel.find().populate('user').exec();
   }
   async findOne(id: string) {
-    const Comment = this.commentModel.findById(id).exec();
+    const Comment = await this.commentModel
+      .findById(id)
+      // .populate('user')
+      // .populate('comments')
+      // .populate({ path: 'comments', populate: 'user' })
+      .exec();
     if (!Comment) {
       throw new NotFoundException(`comments ${id} does not exists`);
     }

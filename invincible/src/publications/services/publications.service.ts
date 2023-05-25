@@ -81,6 +81,7 @@ export class PublicationsService {
     }
     const newComment = new this.commentModel(data);
     Publication.comments.push(newComment);
+    newComment.save();
     await Publication.save();
     return newComment;
   }
