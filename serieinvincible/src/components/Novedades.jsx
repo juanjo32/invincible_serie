@@ -33,6 +33,7 @@ export default function Novedades() {
           return (
             <Publicacion
               key={index}
+              id={item._id}
               profileimg={item.user.image}
               user={item.user.name}
               date={item.date}

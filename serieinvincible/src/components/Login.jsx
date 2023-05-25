@@ -46,6 +46,7 @@ export default function Login() {
         const response = await axios.post('http://localhost:3000/auth/login', data);
         console.log('Response:', response.data);
         setUsuarioGlobal([{ "token": response.data}]);
+        navigate('/home');
 
       }catch (error) {
         console.error('Error:', error);
@@ -55,7 +56,7 @@ export default function Login() {
           text: 'Ocurrio el error: '+error
         });
       }
-      navigate('/home');
+      
     }
     
   };

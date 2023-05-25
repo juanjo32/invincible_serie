@@ -12,7 +12,7 @@ export default function Home() {
   const fetchData = async () => {
     try {
       const response = await axios.get("http://localhost:3000/publications");
-      //console.log(response.data);
+      console.log(response.data);
       setData(response.data);
     } catch (error) {
       console.log(error);
@@ -35,6 +35,7 @@ export default function Home() {
           return (
             <Publicacion
               key={index}
+              id={item._id}
               profileimg={item.user.image}
               user={item.user.name}
               date={item.date}

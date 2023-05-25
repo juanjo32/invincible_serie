@@ -1,8 +1,13 @@
+import axios from "axios";
 import React from "react";
 import { useState } from "react";
+import MyContext from './context';
+import { useContext } from 'react';
+import Swal from 'sweetalert2';
 
 export default function Publicacion({
   user,
+  id,
   profileimg,
   date,
   text,
@@ -12,8 +17,39 @@ export default function Publicacion({
 }) {
   const [commentText, setCommentText] = useState('');
   const inpBackCol = { backgroundColor: '#2b3036', borderColor: '#86857e', outlineColor: 'none', width: '100%', display: 'flex' }
+  const { UsuarioGlobal } = useContext(MyContext);
+ 
+  const data = {
+    user: UsuarioGlobal[0].token.user.name,
+    content: commentText
+  };
 
-  const handleComment = async (event) => {
+  const handleComment = async () => {
+    try {
+      const response = await axios.post('http://localhost:3000/publications/'+id+'/comments', data, {
+        headers: {
+          'Authorization': `Bearer ${UsuarioGlobal[0].token.access_token}`
+        }
+      });
+
+      Swal.fire({
+        icon: 'success',
+        title: 'Publicado! 🌟',
+        text: 'Tu comentario fue completado con éxito'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          window.location.reload();
+        }
+      });
+      
+    } catch (error) {
+      console.error('Error:', error);
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: 'Ocurrio el error: ' + error
+      });
+    }
   }
 
   return (
@@ -51,10 +87,10 @@ export default function Publicacion({
         <div className="card-footer">
           <h6>Comentarios:</h6>
           {comments.map((comment, index) => (
-            <p key={index}>{"💬" + comment.user.name + ": " + comment.content}</p>
+            <p key={index}>{"💬" + comment.user + ": " + comment.content}</p>
           ))}
           <div className="row">
-            <div className="col-12"> <h6> <textarea type="text" className="text-white" style={inpBackCol} value={commentText} onChange={(event) => setCommentText(event.target.value)} placeholder="Espacio para que comentes ¡expresate!" /></h6></div>
+            <div className="col-12"> <h6> <textarea type="text" value={commentText} className="text-white" style={inpBackCol} onChange={(event) => setCommentText(event.target.value)} placeholder="Espacio para que comentes ¡expresate!" /></h6></div>
           </div>
           <div className="row">
             <div className="text-end">  <button type="button" className="btn align-text-end text-white" style={{ backgroundColor: '#11141b', alignSelf: 'end' }} onClick={handleComment} >comentar!</button></div>

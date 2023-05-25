@@ -59,6 +59,7 @@ export default function ProfileImageSelect() {
                 <div className='row mt-2 mb-3'>
                     <div className='col-12'> <strong>Usuario: </strong>{UsuarioGlobal[0].token.user.name}</div>
                     <div className='col-12'> <strong>Correo:</strong> {UsuarioGlobal[0].token.user.email} </div>
+                    <div className='col-12'> <strong>Verificado:</strong> {UsuarioGlobal[0].token.user.verified.toString()} </div>
                 </div>
                 <div className='row mb-4'>
                     <div className='col-12'><img src={img} className="img-fluid rounded" alt="Ingresa una imagen de perfil valida 📷" width="130" height="130" /></div>
